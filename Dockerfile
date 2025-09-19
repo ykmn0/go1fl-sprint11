@@ -43,6 +43,7 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 
 # Копирование собранного приложения
 COPY --from=builder /app/main .
+COPY tracker.db /app/
 
 # Установка владельца файлов
 RUN chown -R appuser:appuser /app
