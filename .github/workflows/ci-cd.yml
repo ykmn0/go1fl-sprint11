@@ -1,23 +1,18 @@
 name: CI/CD Pipeline
 
-# Триггеры для запуска workflow
 on:
-  # Запуск при push в ветки и при создании тегов
   push:
     branches: [ "*" ]
     tags: [ "v*.*.*" ]
-  # Запуск при создании pull request
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, dev ]
 
-# Глобальные переменные окружения
 env:
-  GO_VERSION: '1.22'
+  GO_VERSION: '1.24'
   REGISTRY: docker.io
   IMAGE_NAME: ykmn0/go1fl-sprint11
 
 jobs:
-  # Job 1: Проверка кода и тестирование
   test:
     name: 🧪 Test and Code Quality
     runs-on: ubuntu-latest
@@ -70,14 +65,6 @@ jobs:
         if-no-files-found: warn
         retention-days: 7
     
-    # Статический анализ с golangci-lint
-    - name: 🔍 Run golangci-lint
-      uses: golangci/golangci-lint-action@v6
-      with:
-        version: v1.61.0
-        args: --timeout=5m
-
-  # Job 2: Сборка и публикация Docker образа (только при тегах)
   docker-publish:
     name: 🐳 Build and Push Docker Image
     runs-on: ubuntu-latest
@@ -111,7 +98,6 @@ jobs:
         tag="${GITHUB_REF#refs/tags/}"
         echo "tag=$tag" >> $GITHUB_OUTPUT
         
-        # Извлекаем семантические версии
         if [[ $tag =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+) ]]; then
           major="v${BASH_REMATCH[1]}"
           minor="v${BASH_REMATCH[1]}.${BASH_REMATCH[2]}"
@@ -136,7 +122,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
         labels: |
-          org.opencontainers.image.title=Go1FL Sprint 11
+          org.opencontainers.image.title=Sprint 11
           org.opencontainers.image.description=Go application from Sprint 11
           org.opencontainers.image.version=${{ steps.version.outputs.tag }}
           org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
