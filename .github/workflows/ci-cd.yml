@@ -14,7 +14,7 @@ env:
 
 jobs:
   test:
-    name: 🧪 Test and Code Quality
+    name: 🧪 Test
     runs-on: ubuntu-latest
     
     steps:

@@ -44,10 +44,10 @@ logs/
 Dockerfile*
 .dockerignore
 
-# Dependencies (будут загружены заново)
+# Dependencies
 vendor/
 
-# Временные файлы
+# Temporary files
 *.tmp
 *.temp
 .cache/
