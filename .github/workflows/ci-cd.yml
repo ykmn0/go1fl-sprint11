@@ -2,15 +2,13 @@ name: CI/CD Pipeline
 
 # Триггеры для запуска workflow
 on:
-  # Запуск при push в любую ветку
+  # Запуск при push в ветки и при создании тегов
   push:
     branches: [ "*" ]
+    tags: [ "v*.*.*" ]
   # Запуск при создании pull request
   pull_request:
     branches: [ main, develop ]
-  # Запуск при создании тегов для релизов
-  push:
-    tags: [ "v*.*.*" ]
 
 # Глобальные переменные окружения
 env:
